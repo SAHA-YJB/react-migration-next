@@ -6,6 +6,7 @@ import { Difficulty, totalQuestions } from './const';
 import AppSpinner from './components/Spinner';
 import { Box, Heading } from '@chakra-ui/react';
 import AppButton from './components/AppButton';
+import QuestionCard from './components/QuestionCard';
 
 function App() {
   const [startQuiz, setStartQuiz] = useState(false);
@@ -29,6 +30,9 @@ function App() {
   }, []);
 
   const startQuizGame = () => {};
+  const checkAnswer = () => {};
+  const nextQuestion = () => {};
+  const replayQuiz = () => {};
 
   return (
     <main>
@@ -63,6 +67,69 @@ function App() {
           </Box>
         </div>
       ) : null}
+
+      {/* 시작 */}
+      {!loading && !gameOver && startQuiz && (
+        <Box boxShadow='base' p='6' rounded='md' bg='white' maxW='560px'>
+          <QuestionCard
+            questions={question[questionNumber].question}
+            category={question[questionNumber].category}
+            totalQuestions={totalQuestions}
+            questionNumber={questionNumber}
+            checkAnswer={checkAnswer}
+          />
+          <AppButton
+            disabled={
+              userAnswer.length === questionNumber + 1 &&
+              questionNumber !== totalQuestions
+                ? false
+                : true
+            }
+            colorScheme='purple'
+            variant='solid'
+            onClick={nextQuestion}
+            value='다음!'
+            className='next-button'
+          />
+        </Box>
+      )}
+
+      {/* 오버 */}
+      {gameOver && (
+        <>
+          <Box boxShadow='base' p='6' rounded='md' bg='white' maxW='560px'>
+            <Box mb={4}>
+              <Box as='h3' fontWeight='bold' fontSize='4xl'>
+                게임 끝!
+              </Box>
+              <Box as='h3' fontSize='xl'>
+                점수: {score}
+              </Box>
+            </Box>
+            {userAnswer.map((answer, index) => (
+              <Box key={index}>
+                <div className='answer-list'>
+                  <Box fontSize='md' fontWeight='bold'>
+                    Q.
+                    <p dangerouslySetInnerHTML={{ __html: answer.question }} />
+                  </Box>
+                  <ul>
+                    <li>You Answer: {answer.answer}</li>
+                    <li>Correct Answer: {answer.correctAnswer}</li>
+                  </ul>
+                </div>
+              </Box>
+            ))}
+            <AppButton
+              colorScheme='purple'
+              variant='solid'
+              onClick={replayQuiz}
+              value='다시 시작!'
+              width='full'
+            />
+          </Box>
+        </>
+      )}
     </main>
   );
 }
