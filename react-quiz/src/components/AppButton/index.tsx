@@ -10,7 +10,7 @@ interface AppButtonProps {
   onClick: (e?: React.MouseEvent) => void;
 }
 
-const AppButton: React.FC<AppButtonProps> = ({
+const AppButton = ({
   value,
   colorScheme,
   variant,
@@ -18,7 +18,7 @@ const AppButton: React.FC<AppButtonProps> = ({
   disabled,
   width,
   onClick,
-}) => {
+}: AppButtonProps) => {
   return (
     <Button
       colorScheme={colorScheme}
