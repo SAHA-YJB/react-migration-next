@@ -3,7 +3,7 @@ import React from 'react';
 import AppButton from '../AppButton';
 
 interface QuestionCardProps {
-  question: string;
+  questions: string;
   category: string;
   totalQuestions?: number;
   questionNumber?: number;
@@ -11,7 +11,7 @@ interface QuestionCardProps {
 }
 
 const QuestionCard = ({
-  question,
+  questions,
   category,
   totalQuestions,
   questionNumber,
@@ -29,11 +29,11 @@ const QuestionCard = ({
         </Box>
 
         <Heading as='h1' size='lg'>
-          <p dangerouslySetInnerHTML={{ __html: question }} />
+          <p dangerouslySetInnerHTML={{ __html: questions }} />
         </Heading>
 
         <Flex direction='column'>
-          <Box w='100%' mt={4}>
+          <Box w='100%' mt={4} mb={4}>
             <AppButton
               colorScheme='purple'
               variant='outline'
@@ -43,7 +43,7 @@ const QuestionCard = ({
             />
           </Box>
           <Spacer />
-          <Box>
+          <Box w='100%' mb={4}>
             <AppButton
               colorScheme='purple'
               variant='outline'

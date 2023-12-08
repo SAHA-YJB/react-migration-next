@@ -1,16 +1,16 @@
+import { Box, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { IQuestion, IUserAnswer } from './types';
-import { getQuestionList } from './services/fetchQuestions';
-import { Difficulty, totalQuestions } from './const';
-import AppSpinner from './components/Spinner';
-import { Box, Heading } from '@chakra-ui/react';
 import AppButton from './components/AppButton';
 import QuestionCard from './components/QuestionCard';
+import AppSpinner from './components/Spinner';
+import { Difficulty, totalQuestions } from './const';
+import { getQuestionList } from './services/fetchQuestions';
+import { IQuestion, IUserAnswer } from './types';
 
 function App() {
   const [startQuiz, setStartQuiz] = useState(false);
-  const [question, setQuestion] = useState<IQuestion[]>([]);
+  const [questions, setQuestion] = useState<IQuestion[]>([]);
   const [userAnswer, setUserAnswer] = useState<IUserAnswer[]>([]);
   const [loading, setLoading] = useState(true);
   const [questionNumber, setQuestionNumber] = useState(0);
@@ -29,10 +29,45 @@ function App() {
     fetchQuestion();
   }, []);
 
-  const startQuizGame = () => {};
-  const checkAnswer = () => {};
-  const nextQuestion = () => {};
-  const replayQuiz = () => {};
+  const startQuizGame = (): void => {
+    setStartQuiz(true);
+  };
+
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    if (gameOver) return;
+
+    const choosenAnswer = e.currentTarget.innerText;
+    const correct = questions[questionNumber]?.correct_answer === choosenAnswer;
+
+    //정답이면 스코어 +1
+    if (correct) setScore((prev) => prev + 1);
+    const answerObject = {
+      question: questions[questionNumber]?.question,
+      answer: choosenAnswer,
+      correct: correct,
+      correctAnswer: questions[questionNumber].correct_answer,
+    };
+    setUserAnswer((prev) => [...prev, answerObject]);
+  };
+
+  const nextQuestion = () => {
+    const nextQuestion = questionNumber + 1;
+    if (nextQuestion === totalQuestions) {
+      setGameOver(true);
+    } else {
+      setQuestionNumber(nextQuestion);
+    }
+  };
+
+  const replayQuiz = () => {
+    setStartQuiz(false);
+    setQuestionNumber(0);
+    setScore(0);
+    setGameOver(false);
+    setUserAnswer([]);
+    setLoading(true);
+  };
 
   return (
     <main>
@@ -52,10 +87,11 @@ function App() {
       !gameOver &&
       !loading &&
       !startQuiz ? (
-        <div>
+        <div className='greeting-box'>
           <Box boxShadow='base' p='6' rounded='md' bg='white' maxW='560px'>
             <Heading as='h2' size='lg' mb={2}>
-              퀴즈앱인데 영어를 알아야 해요 API가 그래요!
+              퀴즈앱인데 영어를 알아야 해요 <br />
+              API가 그래요!
             </Heading>
             <p>참이나 거짓이에요! {totalQuestions}개의 질문이 있어요!</p>
             <AppButton
@@ -63,6 +99,7 @@ function App() {
               variant='solid'
               onClick={startQuizGame}
               value='시작!'
+              width='full'
             />
           </Box>
         </div>
@@ -72,8 +109,8 @@ function App() {
       {!loading && !gameOver && startQuiz && (
         <Box boxShadow='base' p='6' rounded='md' bg='white' maxW='560px'>
           <QuestionCard
-            questions={question[questionNumber].question}
-            category={question[questionNumber].category}
+            questions={questions[questionNumber].question}
+            category={questions[questionNumber].category}
             totalQuestions={totalQuestions}
             questionNumber={questionNumber}
             checkAnswer={checkAnswer}
@@ -90,6 +127,7 @@ function App() {
             onClick={nextQuestion}
             value='다음!'
             className='next-button'
+            width='full'
           />
         </Box>
       )}
