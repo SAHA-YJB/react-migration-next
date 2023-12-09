@@ -1,18 +1,20 @@
 'use client';
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState } from 'react';
 
 const Header = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const routes = [
     { title: 'Home', path: '/' },
     { title: 'Question', path: '/question' },
     { title: 'State', path: '/state' },
-    { title: 'Quiz', path: '/Quiz' },
+    { title: 'Quiz', path: '/quiz' },
   ];
+
   return (
     <header className='shadow-lg'>
+      {/* 사이드 네브 */}
       <div
         className={`fixed lg:hidden transtion-all z-20 duration-300 ${
           open ? 'right-0' : '-right-64'
@@ -34,6 +36,27 @@ const Header = () => {
             </Link>
           ))}
         </div>
+      </div>
+      {/* 위 헤더 네브 */}
+      <div className='flex justify-between items-center px-6 py-4 bg-orange-400'>
+        <div className='text-slate-50 text-xl sm:text4xl lg:text-2xl xl:text-2xl font-bold'>
+          AppRouteQuizApp
+        </div>
+        <nav className='space-x-4 hidden lg:flex'>
+          {routes.map((route) => (
+            <Link
+              className={'px-6 py-2 text-slate-200 rounded bg-orange-700'}
+              href={route.path}
+              key={route.path}
+            >
+              {route.title}
+            </Link>
+          ))}
+        </nav>
+        <Bars3Icon
+          onClick={() => setOpen(!open)}
+          className='w-6 h-6 stroke-indigo-50 lg:hidden'
+        />
       </div>
     </header>
   );
