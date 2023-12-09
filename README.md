@@ -1,6 +1,6 @@
 # React - Next(PagesRouter) - Next(AppRouter)[QuizApp]
 
-사용 스택: Next(pages/app), Typescript, vite, axios
+사용 스택: Next(pages/app), Typescript, vite, axios, SWR
 
 # React
 
@@ -23,3 +23,29 @@
 ## API 요청
 
 - 질문 목록 API 요청 진행
+
+# Next(PagesRouter)
+
+## 페이지 구조
+
+1. 시작페이지
+2. 문제페이지
+3. 결과페이지
+
+## 퀴즈 데이터 받아오기
+
+1. 페이지 인덱스 상태 생성 후 useSWR로 요청
+
+## API 생성
+
+1. 서버와 클라이언트 사이에 데이터를 주고 받을 수 있는 API를 생성
+
+## 퀴즈 데이터 타입 선언
+
+1. 퀴즈 데이터 타입을 선언합니다. 이는 퀴즈와 퀴즈 리스폰스 타입으로 구성
+
+> **알림**: 로컬 스토리지에 데이터를 저장할 때는 항상 스트링 값으로 변환하여 저장
+
+## 결과 페이지의 데이터 생성
+
+1. 사용자의 퀴즈 결과에 따른 결과 페이지 데이터를 생성
