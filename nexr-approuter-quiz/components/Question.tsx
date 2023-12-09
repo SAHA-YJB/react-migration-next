@@ -39,7 +39,7 @@ const Question = ({
       }`}
     >
       <div className='text-slate-500 text-xl mb-4'>
-        {withId ? question.id + ')' : '' + question.text}
+        {(withId ? question.id + ') ' : '') + question.text}
       </div>
 
       {question.options.map((option) => (
