@@ -1,6 +1,7 @@
 'use client';
 import { IQuestion } from '@/utils/types';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { useTransition, animated } from '@react-spring/web';
 import { useState } from 'react';
 
 interface QuestionProps {
@@ -19,6 +20,13 @@ const Question = ({
   const [answer, setAnswer] = useState(0);
   const [isAnswer, setIsAnswer] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
+
+  const transtions = useTransition(isAnswer, {
+    from: { opacity: 0, height: 0 },
+    enter: { opacity: 1, height: 40 },
+    leave: { opacity: 0, height: 0 },
+    config: { duration: 200 },
+  });
 
   return (
     <div
@@ -67,6 +75,26 @@ const Question = ({
           <span className='w-full'>{option.text}</span>
         </label>
       ))}
+      {/* 답변확인 애니메이션 */}
+      {checkEnabled &&
+        transtions(
+          (styles, item) =>
+            answer > 0 &&
+            !item && (
+              <animated.div style={{ overflow: 'hidden', ...styles }}>
+                <div
+                  onClick={() => {
+                    setIsAnswer(true);
+                    setIsTrue(question.answer === answer);
+                  }}
+                  className={`bg-blue-600 p-2 text-slate-50 rounded text-center
+            shadow hover:bg-blue-500 duration-200 cursor-pointer`}
+                >
+                  답을 확인 해볼까요?
+                </div>
+              </animated.div>
+            )
+        )}
     </div>
   );
 };
