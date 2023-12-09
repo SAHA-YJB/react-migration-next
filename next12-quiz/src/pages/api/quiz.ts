@@ -1,6 +1,7 @@
+import { TQuiz, TQuizResponse } from '@/types/quiz';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const questionAnswers = [
+const questionAnswers: TQuiz[] = [
   {
     id: 1,
     question: '과일이 아닌 것은?',
@@ -15,7 +16,10 @@ const questionAnswers = [
   },
 ];
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<TQuizResponse>
+) {
   try {
     const { page } = req.query as { page: string };
 
