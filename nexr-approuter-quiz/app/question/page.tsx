@@ -11,7 +11,7 @@ const QuestionPage = () => {
           key={question.id}
           question={question}
           withId={false}
-          checkedEnabled={true}
+          checkEnabled={true}
         />
       ))}
     </div>
