@@ -13,3 +13,6 @@ export type TQuizResponse =
       total: number;
     }
   | TQuiz[];
+export type TSavedAnswer = {
+  [key: string]: string;
+};
